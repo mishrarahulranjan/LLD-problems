@@ -1,0 +1,15 @@
+Create a custom  LoadBalancer (low level design)
+
+which has functionality like
+i) Methods
+        a) register :  to register backend server
+        b) It allows max backend server,
+        c) backend server should be unique
+
+ii) get the backend Server instance
+
+getInstance method : to return the backend server following the random load balancing strategy
+
+iii) it supports LB strategy
+-- randomly
+-- round-robin
