@@ -1,5 +1,8 @@
 package com.interview.test.lb.strategy;
 
+import com.interview.test.server.BackendServer;
+
+import java.util.List;
 import java.util.Random;
 
 public class RandomLoadBalancingStrategy implements LoadBalancingStrategy {
@@ -7,8 +10,8 @@ public class RandomLoadBalancingStrategy implements LoadBalancingStrategy {
     private Random random = new Random();
 
     @Override
-    public int getBackEndServerIndex(int backEndServerCount) {
-        int serverIndex = random.nextInt(backEndServerCount);
-        return serverIndex;
+    public BackendServer getBackEndServer(List<BackendServer> serverList) {
+        int serverIndex = random.nextInt(serverList.size());
+        return serverList.get(serverIndex);
     }
 }

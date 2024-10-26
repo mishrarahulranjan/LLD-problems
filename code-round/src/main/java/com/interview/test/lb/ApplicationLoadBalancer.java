@@ -1,7 +1,8 @@
 package com.interview.test.lb;
 
-import com.interview.test.contant.Constant;
+import com.interview.test.constant.Constant;
 import com.interview.test.lb.strategy.LoadBalancingStrategy;
+import com.interview.test.server.BackendServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class ApplicationLoadBalancer {
 
     private int maxBackEndServerCount;
 
-    private Map<String,String> uniqueBackendHostsMap ;
+    private Map<String, BackendServer> uniqueBackendHostsMap ;
 
     private LoadBalancingStrategy loadBalancingStrategy;
 
@@ -27,15 +28,15 @@ public class ApplicationLoadBalancer {
     }
 
 
-    public boolean register(String hostInfo){
+    public boolean register(BackendServer hostInfo){
        try{
            lock.lock();
             if(uniqueBackendHostsMap.size()>= maxBackEndServerCount){
                 throw new RuntimeException(Constant.Message.LB_MAX_CAPACITY_MSG);
             }else{
                 //uniqueness check
-                if(!uniqueBackendHostsMap.containsKey(hostInfo)){
-                    uniqueBackendHostsMap.put(hostInfo, hostInfo);
+                if(!uniqueBackendHostsMap.containsKey(hostInfo.getHostName())){
+                    uniqueBackendHostsMap.put(hostInfo.getHostName(), hostInfo);
                     return true;
                 }else{
                     throw new RuntimeException(Constant.Message.LB_HOST_DUPLICATE_MSG);
@@ -47,10 +48,10 @@ public class ApplicationLoadBalancer {
    }
 
     public String getBackEndInstance(){
-        List<String> serverList = new ArrayList<>(uniqueBackendHostsMap.values());
+        List<BackendServer> serverList = new ArrayList<>(uniqueBackendHostsMap.values());
         if(serverList.size() ==0){
             throw new RuntimeException(Constant.Message.LB_NO_BACKEND_SERVER);
         }
-        return  serverList.get(loadBalancingStrategy.getBackEndServerIndex(serverList.size()));
+        return loadBalancingStrategy.getBackEndServer(serverList).toString();
     }
 }

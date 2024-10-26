@@ -1,4 +1,4 @@
-package com.interview.test.contant;
+package com.interview.test.constant;
 
 public class Constant {
 
