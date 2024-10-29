@@ -6,8 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="code-round" />
+        <module name="account-transfer-service" />
+        <module name="custom-lb" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="account-transfer-service" target="1.5" />
+      <module name="custom-lb" target="1.5" />
+      <module name="LLD-problems" target="19" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="custom-lb" options="--add-modules java.base" />
+    </option>
   </component>
 </project>
